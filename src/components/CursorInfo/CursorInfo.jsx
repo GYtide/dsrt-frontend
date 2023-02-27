@@ -1,17 +1,12 @@
 import React from 'react'
-
 export class CursorInfo extends React.Component {
   render() {
     return (
       <div id="x-profile-container">
-        <div class="lm_header"> 
-          <ul class="lmtabs">
-            <li class="lm_tab">
-              <span class="tab_title">X Profile: Cursor</span>
-            </li>
-          </ul>
+        <div className="lm_header">
+          <span className="tab_title">X Profile: Cursor</span>
         </div>
-        <div class="lm_body">
+        <div className="lm_body">
           <div id="xcoordinate"></div>
         </div>
       </div>

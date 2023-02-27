@@ -1,17 +1,13 @@
 import React from 'react'
-
+import styles from './view.css'
 export class InfoContainer extends React.Component {
   render() {
     return (
       <div id="info-container">
-        <div class="lm_header">
-          <ul class="lmtabs">
-            <li class="lm_tab">
-              <span class="tab_title">Image Info</span>
-            </li>
-          </ul>
+        <div className="lm_header">
+          <span className="tab_title">Image Info</span>
         </div>
-        <div class="lm_body"></div>
+        <div className="lm_body"></div>
       </div>
     )
   }

@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Link to="/view">VIEW</Link>
+        {/* <Link to="/view">VIEW</Link> */}
         <Routes>
           <Route path="/view" element={<ImageView />}></Route>
         </Routes>

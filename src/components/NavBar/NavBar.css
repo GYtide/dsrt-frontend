@@ -1,0 +1,45 @@
+/* block styling */
+
+.navbar {
+  /* background-color: #003366; */
+  /* background-color: #30404d; */
+  background-color: #dddfe1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  justify-content: flex-start;
+  flex-flow: row nowrap;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  flex-basis: 0px;
+  flex-grow: 1;
+}
+
+.navbar-container {
+  max-width: 1480px;
+  margin: auto;
+  width: 100%;
+}
+
+.nav-link {
+  margin: 0px 5px;
+}
+
+.nav-brand {
+  margin-right: 1rem;
+  width: auto;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+}
+
+.nav-link {
+  width: auto;
+  display: block;
+  padding: 0.5rem 1rem;
+  color: rgb(0, 0, 0);
+}

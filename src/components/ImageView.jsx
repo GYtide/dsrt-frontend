@@ -1,30 +1,32 @@
 import React from 'react'
 import { RasterView } from './RasterView'
 import { Histogram } from './Histogram'
-import { CursorInfo } from './CursorInfo'
+import { CursorInfo } from './CursorInfo/CursorInfo'
 import { InfoContainer } from './InfoContainer'
+import { NavBar } from './NavBar/NavBar'
+import styles from './ImageView.css'
+
 export class ImageView extends React.Component {
   render() {
     return (
-      <div id="root">
-        <div class="App">
-          <div class="gl-container-app">
-            <div class="lm_item_left">
-              <RasterView></RasterView>
-              <div class="lm_splitter_horizontal"></div>
-              <Histogram></Histogram>
-            </div>
-            <div class="lm_splitter_vertical"></div>
-            <div class="lm_item_right">
-              <CursorInfo></CursorInfo>
-              <div class="lm_splitter_horizontal"></div>
-              <CursorInfo></CursorInfo>
-              <div class="lm_splitter_horizontal"></div>
-              <InfoContainer></InfoContainer>
-            </div>
+      <>
+        <NavBar></NavBar>
+        <div class="gl-container-app">
+          <div className="lm_item_left">
+            <RasterView></RasterView>
+            <div className="lm_splitter_horizontal"></div>
+            <Histogram></Histogram>
+          </div>
+          <div className="lm_splitter_vertical"></div>
+          <div className="lm_item_right">
+            <CursorInfo></CursorInfo>
+            <div className="lm_splitter_horizontal"></div>
+            <CursorInfo></CursorInfo>
+            <div className="lm_splitter_horizontal"></div>
+            <InfoContainer></InfoContainer>
           </div>
         </div>
-      </div>
+      </>
     )
   }
 }
