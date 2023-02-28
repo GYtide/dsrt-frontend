@@ -1,7 +1,3 @@
-#root {
-  display: flex;
-  flex-direction: column;
-}
 .App {
   height: 99%;
   width: 99%;
@@ -10,19 +6,16 @@
   left: 0;
   z-index: -100;
   user-select: none;
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
-  /* margin: 10px 10px 10px 10px; */
-  margin-left: 10px;
-  flex-basis: 0px;
-  flex-grow: 2;
 }
 
 .gl-container-app {
   position: relative;
   z-index: -100;
   width: 100%;
-  height: 90%;
+  height: 100%;
   display: flex;
   flex-direction: row;
   font-size: 14px;
