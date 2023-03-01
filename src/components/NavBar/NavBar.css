@@ -1,8 +1,7 @@
 /* block styling */
 
 .navbar {
-  /* background-color: #003366; */
-  /* background-color: #30404d; */
+  width: 100%;
   background-color: #dddfe1;
   position: relative;
   display: flex;

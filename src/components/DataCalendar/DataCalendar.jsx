@@ -8,11 +8,12 @@ export class DataCalendar extends React.Component {
   }
   render() {
     const year = 2023
+    const { width = '80%', height = '100%' } = this.props
     return (
       <CalendarCharts
         option={Option}
         year={year}
-        style={{ flex: 1 }}></CalendarCharts>
+        style={{ flex: 1, width }}></CalendarCharts>
     )
   }
 }

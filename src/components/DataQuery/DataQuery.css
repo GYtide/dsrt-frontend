@@ -1,8 +1,15 @@
 .overview {
-  width: 100%;
+  width: 80%;
   height: 100%;
   display: flex;
   flex-direction: column;
   flex-basis: 0px;
   flex-grow: 20;
+}
+
+.queryout {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 0px;
+  flex-grow: 4;
 }

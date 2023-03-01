@@ -1,16 +1,6 @@
-const fs = require('fs')
+let a = new Array('a', 'b', 'c')
 
-fs.readFile('./data/xarr.bin', (err, data) => {
-  if (err) {
-    console.log(err)
-    return
-  }
-  console.log(data)
-  let arr = new Float32Array(data.buffer)
-  for (let i in arr) {
-    console.log(arr[i], ',')
-  }
+
+a.map((value, index) => {
+  console.log(value)
 })
-
-let a = 2
-console.log(a.toExponential(1))

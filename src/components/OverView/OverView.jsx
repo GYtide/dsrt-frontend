@@ -1,18 +1,20 @@
-import React from 'react'
-import { NavBar } from '../NavBar/NavBar'
-import { DataCalendar } from '../DataCalendar/DataCalendar'
-import './OverView.css'
-import { DropDown } from '../DropDown/DropDown'
-export class OverView extends React.Component {
-  render() {
-    return (
-      <>
-        <NavBar></NavBar>
-        {/* <DropDown></DropDown> */}
-        <div className="overview">
-          <DataCalendar></DataCalendar>
-        </div>
-      </>
-    )
-  }
+import { Tabs } from 'antd'
+
+const Tab = () => <Tabs />
+
+const OverView = (props) => {
+  return (
+    <Tabs
+      style={{ flex: props.flex }}
+      type="card"
+      items={new Array('overview').map((value, index) => {
+        return {
+          label: `${value}`,
+          key: index,
+          children: `Content of Tab Pane ${value}`,
+        }
+      })}></Tabs>
+  )
 }
+
+export default OverView
