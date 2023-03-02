@@ -113,39 +113,45 @@ const Option = {
       filterMode: 'none',
     },
   ],
-  // series: [
-  //   {
-  //     type: 'custom',
-  //     geoIndex: 0,
-  //     renderItem: function (params, api) {
-  //       var x = myChart.convertToPixel('grid', [-40, 40])[0]
-  //       var y = myChart.convertToPixel('grid', [-40, 40])[1]
-  //       console.log(params.coordSys)
-  //       return {
-  //         type: 'image',
-  //         style: {
-  //           image: canvas,
-  //           x: x,
-  //           y: y,
-  //           width: 512,
-  //           height: 512,
-  //         },
-  //         z: -1,
-  //       }
-  //     },
-  //     clip: true,
-  //     silent: true,
-  //     data: [0],
-  //   },
-  // ],
 }
 
 function RasterChart({ option }) {
   const domRef = useRef()
   const initChart = () => {
     const myChart = echarts.init(domRef.current) //初始化echarts
+
+    var canvas = document.createElement('canvas')
+    canvas.width = 128
+    canvas.height = 128
     //设置options
-    myChart.setOption(option)
+    myChart.setOption({
+      ...option,
+      series: [
+        {
+          type: 'custom',
+          geoIndex: 0,
+          renderItem: function (params, api) {
+            var x = myChart.convertToPixel('grid', [-40, 40])[0]
+            var y = myChart.convertToPixel('grid', [-40, 40])[1]
+            console.log(params.coordSys)
+            return {
+              type: 'image',
+              style: {
+                image: canvas,
+                x: x,
+                y: y,
+                width: 512,
+                height: 512,
+              },
+              z: -1,
+            }
+          },
+          clip: true,
+          silent: true,
+          data: [0],
+        },
+      ],
+    })
   }
   useEffect(() => {
     initChart()
