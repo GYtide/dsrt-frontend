@@ -115,14 +115,10 @@ const Option = {
   ],
 }
 
-function RasterChart({ option }) {
+function RasterChart({ option, data }) {
   const domRef = useRef()
-  const initChart = () => {
+  const initChart = (canvas) => {
     const myChart = echarts.init(domRef.current) //初始化echarts
-
-    var canvas = document.createElement('canvas')
-    canvas.width = 128
-    canvas.height = 128
     //设置options
     myChart.setOption({
       ...option,
@@ -131,8 +127,8 @@ function RasterChart({ option }) {
           type: 'custom',
           geoIndex: 0,
           renderItem: function (params, api) {
-            var x = myChart.convertToPixel('grid', [-40, 40])[0]
-            var y = myChart.convertToPixel('grid', [-40, 40])[1]
+            var x = myChart.convertToPixel('grid', [-64])[0]
+            var y = myChart.convertToPixel('grid', [, 120])[1]
             console.log(params.coordSys)
             return {
               type: 'image',
@@ -140,8 +136,12 @@ function RasterChart({ option }) {
                 image: canvas,
                 x: x,
                 y: y,
-                width: 512,
-                height: 512,
+                width:
+                  myChart.convertToPixel('grid', [64, 40])[0] -
+                  myChart.convertToPixel('grid', [-64, 40])[0],
+                height:
+                  myChart.convertToPixel('grid', [64, 40])[0] -
+                  myChart.convertToPixel('grid', [-64, 40])[0],
               },
               z: -1,
             }
@@ -154,7 +154,37 @@ function RasterChart({ option }) {
     })
   }
   useEffect(() => {
-    initChart()
+    var canvas = document.createElement('canvas')
+    canvas.width = 128
+    canvas.height = 128
+    var ctx = canvas.getContext('2d')
+    if (data) {
+      console.log(data)
+      // 找到数组中的最小值和最大值
+      const minValue = Math.min(...data)
+      const maxValue = Math.max(...data)
+
+      // 归一化至0到1之间
+      const normalized = data.map(
+        (value) => (value - minValue) / (maxValue - minValue)
+      )
+
+      // 缩放至0到255之间
+      const scaled = normalized.map((value) => Math.round(value * 255))
+      var rasterdata = []
+      console.log(scaled)
+
+      for (let i = 0; i < scaled.length; ++i) {
+        rasterdata[4 * i] = scaled[i]
+        rasterdata[4 * i + 1] = scaled[i]
+        rasterdata[4 * i + 2] = scaled[i]
+        rasterdata[4 * i + 3] = 255
+      }
+      var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+      imageData.data.set(rasterdata)
+      ctx.putImageData(imageData, 0, 0)
+    }
+    initChart(canvas)
   }, [])
   return (
     <>
@@ -163,6 +193,24 @@ function RasterChart({ option }) {
   )
 }
 const RasterView = () => {
+  const [isLoading, setIsLoading] = useState(true)
+  const [data, setData] = useState(null)
+
+  const getData = async () => {
+    setIsLoading(true)
+    const dataRes = await fetch('/data/image/image.bin', {
+      method: 'get',
+      responseType: 'arraybuffer',
+    })
+
+    const data = new Float32Array(await dataRes.arrayBuffer())
+    setData(data)
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
   return (
     <div id="file_container">
       <div className="lm_header">
@@ -174,8 +222,17 @@ const RasterView = () => {
       </div>
       <div className="lm_body">
         <div id="image-panel">
-          <RasterChart option={Option}></RasterChart>
-          <ColorBar></ColorBar>
+          {isLoading ? (
+            <>
+              <RasterChart option={Option} data={null}></RasterChart>
+              <ColorBar></ColorBar>
+            </>
+          ) : (
+            <>
+              <RasterChart option={Option} data={data}></RasterChart>
+              <ColorBar></ColorBar>
+            </>
+          )}
         </div>
       </div>
     </div>
