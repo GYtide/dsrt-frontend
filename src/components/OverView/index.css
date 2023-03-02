@@ -1,6 +1,6 @@
 .chartspanel {
   width: 100%;
-  height: 600px;
+  height: 800px;
   display: flex;
   flex-direction: column;
 }

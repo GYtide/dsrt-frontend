@@ -1,5 +1,5 @@
 import React from 'react'
-import { RasterView } from './RasterView'
+import RasterView from './RasterView/RasterView'
 import { Histogram } from './Histogram'
 import { CursorInfo } from './CursorInfo/CursorInfo'
 import { InfoContainer } from './InfoContainer'
@@ -9,7 +9,7 @@ import styles from './ImageView.css'
 export class ImageView extends React.Component {
   render() {
     return (
-      <>
+      <div className="imageView">
         <NavBar></NavBar>
         <div class="gl-container-app">
           <div className="lm_item_left">
@@ -26,7 +26,7 @@ export class ImageView extends React.Component {
             <InfoContainer></InfoContainer>
           </div>
         </div>
-      </>
+      </div>
     )
   }
 }

@@ -8,7 +8,7 @@ import OverView from '../OverView/OverView'
 const DataQuery = () => {
   const date = { year: 2023, month: 1, day: 1 }
   return (
-    <>
+    <div className='queryview'>
       <NavBar></NavBar>
       {/* <DropDown></DropDown> */}
       <div className="overview">
@@ -18,7 +18,7 @@ const DataQuery = () => {
           <OverView flex={1} date={{ date }}></OverView>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

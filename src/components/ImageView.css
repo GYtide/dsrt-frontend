@@ -1,4 +1,4 @@
-.App {
+.imageView {
   height: 99%;
   width: 99%;
   position: absolute;
@@ -12,6 +12,8 @@
   /* justify-content: center; */
   align-items: center;
 }
+
+
 
 .gl-container-app {
   position: relative;

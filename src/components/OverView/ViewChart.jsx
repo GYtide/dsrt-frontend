@@ -1,13 +1,6 @@
 import * as echarts from 'echarts'
 import { useEffect, useRef } from 'react'
 const option = {
-  title: {
-    text: '',
-    left: 10,
-    textStyle: {
-      fontSize: 1,
-    },
-  },
   xAxis: {
     data: [],
     type: 'category',
@@ -56,33 +49,77 @@ const option = {
 function ViewChart({ Data, xData, yData, title, style }) {
   const domRef = useRef()
   const chartInit = () => {
-    console.log(xData)
     // 将xData转为时间格式
-    // const timeData = []
-    // var time0 = +new Date(2022, 1, 1)
-    // for (let i = 0; i < xData.length; ++i) {
-    //   timeData.push(
-    //     echarts.time.format(
-    //       'hh:mm:ss.ms',
-    //       time0 + xData[i] * 1000,
-    //       false
-    //     )
-    //   )
-    // }
+    const timeData = []
+    var time0 = +new Date(2022, 1, 1)
+    for (let i = 0; i < xData.length; ++i) {
+      timeData.push(
+        echarts.time.format(time0 + xData[i] * 1000, '{HH}:{mm}:{ss}', false)
+      )
+    }
     // 基于准备好的dom，初始化echarts实例
     const myChart = echarts.init(domRef.current)
     // 绘制图表
     myChart.setOption({
       title: {
         text: title,
+        textStyle: {
+          fontSize: 14,
+        },
       },
       tooltip: {},
-      xAxis: {
-        data: [],
-      },
-      yAxis: {
-        data: yData,
-      },
+      xAxis: [
+        {
+          data: timeData,
+          axisTick: {
+            // 隐藏X轴刻度
+            show: true,
+            alignWithLabel: true,
+            length: -5,
+          },
+          axisLine: { onZero: false },
+        },
+        {
+          data: timeData,
+          axisLabel: {
+            // 隐藏X轴刻度数字
+            show: false,
+          },
+          axisTick: {
+            // 隐藏X轴刻度
+            show: true,
+            alignWithLabel: true,
+            length: -5,
+          },
+          axisLine: { onZero: false },
+        },
+      ],
+      yAxis: [
+        {
+          data: yData,
+          axisTick: {
+            // 隐藏X轴刻度
+            show: true,
+            alignWithLabel: true,
+            length: -5,
+          },
+          axisLine: { onZero: false },
+        },
+        {
+          data: yData,
+          axisLabel: {
+            // 隐藏X轴刻度数字
+            show: false,
+          },
+          axisTick: {
+            // 隐藏X轴刻度
+            show: true,
+            alignWithLabel: true,
+            length: -5,
+          },
+          axisLine: { onZero: false },
+        },
+      ],
       series: [],
     })
   }

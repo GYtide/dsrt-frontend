@@ -4,6 +4,7 @@ import * as echarts from 'echarts/lib/echarts'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/grid'
 import 'echarts/lib/chart/bar'
+import { useEffect, useRef, useState } from 'react'
 /**
  * colorbar 使用Echarts实现：一个很窄的图标，colorbar的对应数值就是Y轴，
  * 没有X轴（X轴就是一个category），在数值区域显示一个渐变效果的条.
@@ -71,15 +72,11 @@ const Option = {
   ],
 }
 
-class Charts extends React.Component {
-  constructor(props) {
-    super(props)
-    this.initChart = this.initChart.bind(this)
-  }
+const Charts = ({ option }) => {
+  const domRef = useRef()
 
-  initChart() {
-    const { option = {} } = this.props
-    let myChart = echarts.init(this.ID) //初始化echarts
+  const initChart = () => {
+    let myChart = echarts.init(domRef.current) //初始化echarts
 
     //设置options
     myChart.setOption(option)
@@ -88,18 +85,12 @@ class Charts extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.initChart()
-  }
+  useEffect(() => {
+    initChart()
+  })
 
-  componentDidUpdate() {
-    this.initChart()
-  }
-
-  render() {
-    // const { width = '100%', height = '100%' } = this.props
-    return <div ref={(ID) => (this.ID = ID)} style={{ flex: 1 }}></div>
-  }
+  // const { width = '100%', height = '100%' } = this.props
+  return <div ref={domRef} style={{ flex: 1 }}></div>
 }
 
 export class ColorBar extends React.Component {

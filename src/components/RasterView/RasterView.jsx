@@ -5,12 +5,9 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/grid'
 // import 'echarts/lib/chart/custom'
 import 'echarts/lib/component/dataZoom'
-import { ColorBar } from './ColorBar/ColorBar'
+import { ColorBar } from '../ColorBar/ColorBar'
 
-var canvas = document.createElement('canvas')
-canvas.width = 128
-canvas.height = 128
-var ctx = canvas.getContext('2d')
+import { useEffect, useRef, useState } from 'react'
 
 const Option = {
   tooltip: {
@@ -143,54 +140,40 @@ const Option = {
   // ],
 }
 
-class RasterChart extends React.Component {
-  constructor(props) {
-    super(props)
-    this.initChart = this.initChart.bind(this)
-  }
-
-  initChart() {
-    const { option = {} } = this.props
-    let myChart = echarts.init(this.ID) //初始化echarts
-
+function RasterChart({ option }) {
+  const domRef = useRef()
+  const initChart = () => {
+    const myChart = echarts.init(domRef.current) //初始化echarts
     //设置options
     myChart.setOption(option)
-    window.onresize = function () {
-      myChart.resize()
-    }
   }
-
-  componentDidMount() {
-    this.initChart()
-  }
-
-  componentDidUpdate() {
-    this.initChart()
-  }
-
-  render() {
-    const { width = '100%', height = '100%' } = this.props
-    return <div ref={(ID) => (this.ID = ID)} style={{ flex: 25 }}></div>
-  }
+  useEffect(() => {
+    initChart()
+  }, [])
+  return (
+    <>
+      <div ref={domRef} style={{ flex: 25 }}></div>
+    </>
+  )
 }
-export class RasterView extends React.Component {
-  render() {
-    return (
-      <div id="file_container">
-        <div className="lm_header">
-          <div className="tabs">
-            <span className="tab_title">
-              ODACH_DSRT05_SRSP_L1_05M_20220212081001_V01.01.fits
-            </span>
-          </div>
-        </div>
-        <div className="lm_body">
-          <div id="image-panel">
-            <RasterChart option={Option}></RasterChart>
-            <ColorBar></ColorBar>
-          </div>
+const RasterView = () => {
+  return (
+    <div id="file_container">
+      <div className="lm_header">
+        <div className="tabs">
+          <span className="tab_title">
+            ODACH_DSRT05_SRSP_L1_05M_20220212081001_V01.01.fits
+          </span>
         </div>
       </div>
-    )
-  }
+      <div className="lm_body">
+        <div id="image-panel">
+          <RasterChart option={Option}></RasterChart>
+          <ColorBar></ColorBar>
+        </div>
+      </div>
+    </div>
+  )
 }
+
+export default RasterView
