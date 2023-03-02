@@ -15,7 +15,6 @@ export class CalendarCharts extends React.Component {
 
   initChart() {
     const { option = {}, year } = this.props
-    console.log(option.calendar.range)
     option.calendar.range = 1970
     let myChart = echarts.init(this.ID) //初始化echarts
 

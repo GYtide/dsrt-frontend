@@ -116,31 +116,31 @@ const Option = {
       filterMode: 'none',
     },
   ],
-  series: [
-    {
-      type: 'custom',
-      geoIndex: 0,
-      renderItem: function (params, api) {
-        var x = Map.convertToPixel('grid', [-40, 40])[0]
-        var y = Map.convertToPixel('grid', [-40, 40])[1]
-        console.log(params.coordSys)
-        return {
-          type: 'image',
-          style: {
-            image: canvas,
-            x: x,
-            y: y,
-            width: 512,
-            height: 512,
-          },
-          z: -1,
-        }
-      },
-      clip: true,
-      silent: true,
-      data: [0],
-    },
-  ],
+  // series: [
+  //   {
+  //     type: 'custom',
+  //     geoIndex: 0,
+  //     renderItem: function (params, api) {
+  //       var x = myChart.convertToPixel('grid', [-40, 40])[0]
+  //       var y = myChart.convertToPixel('grid', [-40, 40])[1]
+  //       console.log(params.coordSys)
+  //       return {
+  //         type: 'image',
+  //         style: {
+  //           image: canvas,
+  //           x: x,
+  //           y: y,
+  //           width: 512,
+  //           height: 512,
+  //         },
+  //         z: -1,
+  //       }
+  //     },
+  //     clip: true,
+  //     silent: true,
+  //     data: [0],
+  //   },
+  // ],
 }
 
 class RasterChart extends React.Component {

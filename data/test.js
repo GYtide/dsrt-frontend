@@ -1,6 +1,10 @@
-let a = new Array('a', 'b', 'c')
+const fs = require('fs');
 
+const n = 128;
+const arr = Array.from({ length: n }, (_, i) => i);
+const buffer = Buffer.from(arr);
 
-a.map((value, index) => {
-  console.log(value)
-})
+fs.writeFile('data.bin', buffer, (err) => {
+  if (err) throw err;
+  console.log('File saved');
+});
