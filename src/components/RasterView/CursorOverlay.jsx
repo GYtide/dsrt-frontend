@@ -2,12 +2,16 @@
  * 鼠标指针所指向的值
  */
 
-import { useEffect } from 'react'
 import './RasterView.css'
-const CursorOverlay = ({ value }) => {
+import { frameContext, cursorContext } from '../ImageView'
+import { useEffect, useContext } from 'react'
+const CursorOverlay = () => {
+  const { cursor, setCursor } = useContext(cursorContext)
   return (
     <div className="cursor-overlay">
-      <div className="cursor-overlay-view">{`(${value.x} ,${value.y}) value:${value.data}`}</div>
+      <div className="cursor-overlay-view">{`(${cursor.x} ,${
+        cursor.y
+      }) value:${0}`}</div>
     </div>
   )
 }

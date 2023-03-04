@@ -10,7 +10,6 @@ export const CursorInfo = ({ data }) => {
   const domRef = useRef()
 
   const initChart = () => {
-    console.log('data', data)
     const myChart = echarts.init(domRef.current) //初始化echarts
     //设置options
     myChart.setOption({

@@ -1,7 +1,7 @@
 import logo from './logo.svg'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import { ImageView } from './components/ImageView'
-import  DataQuery from './components/DataQuery/DataQuery'
+import DataQuery from './components/DataQuery/DataQuery'
 function App() {
   return (
     <div className="App">
@@ -9,7 +9,9 @@ function App() {
         {/* <Link to="/view">VIEW</Link> */}
         <Routes>
           <Route path="/" element={<DataQuery />}></Route>
-          <Route path="/view" element={<ImageView />}></Route>
+          <Route
+            path="/view"
+            element={<ImageView fitsid={'IMG2023010101'} />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

@@ -7,8 +7,8 @@ import 'echarts/lib/component/grid'
 import 'echarts/lib/component/dataZoom'
 import ColorBar from '../ColorBar/ColorBar'
 import CursorOverlay from './CursorOverlay'
-
-import { useEffect, useRef, useState,createContext } from 'react'
+import { frameContext, cursorContext } from '../ImageView'
+import { useEffect, useRef, useState, createContext, useContext } from 'react'
 
 import { Space, Spin } from 'antd'
 
@@ -169,7 +169,8 @@ const colorBarOption = {
   ],
 }
 
-function RasterChart({ option, frame, changeCursor }) {
+function RasterChart({ option, frame }) {
+  const { cursor, setCursor } = useContext(cursorContext)
   const domRef = useRef()
   useEffect(() => {
     var canvas = document.createElement('canvas')
@@ -261,10 +262,9 @@ function RasterChart({ option, frame, changeCursor }) {
         params.offsetX,
         params.offsetY,
       ])
-      changeCursor({
-        x: coords[0],
-        y: coords[1],
-      })
+      let x = Math.floor(coords[0]),
+        y = Math.floor(coords[1])
+      setCursor({ x: x, y: y })
     })
   }, [frame])
   return (
@@ -280,42 +280,12 @@ function RasterChart({ option, frame, changeCursor }) {
  *  ColorBar:颜色数据对照表
  *  RasterChart:基于echarts展示数据
  *  CursorOverlay:显示目前指向的数据
+ *
  */
 
-
 const RasterView = () => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [frame, setFrame] = useState(null)
-  const [cursor, setCusor] = useState({ x: 0, y: 0, data: 0 }) //指针所指向的位置对应的值
-  const [cursorInfo, setCusorInfo] = useState([]) // 指针所指向的位置对应的 X、Y切面图
-  // 修改当前的鼠标指针值 newCursor = {x:xcoods,ycoods}
-  const changeCursor = (newCursor) => {
-    let x = Math.floor(newCursor.x)
-    let y = Math.floor(newCursor.y)
-    setCusor({ x: x, y: y, data: 0 })
-    if (x > 0 && x < 128 && y > 0 && y < 128 && frame) {
-      // setCusorInfo()
-    }
-  }
+  const { frame, setframe } = useContext(frameContext)
 
-  /**
-   * 获取
-   */
-  const getData = async () => {
-    setIsLoading(true)
-    const dataRes = await fetch('/data/image/image.bin', {
-      method: 'get',
-      responseType: 'arraybuffer',
-    })
-
-    const data = new Float32Array(await dataRes.arrayBuffer())
-    setFrame(data)
-    setIsLoading(false)
-  }
-
-  useEffect(() => {
-    getData()
-  }, [])
   return (
     <div id="file_container">
       <div className="lm_header">
@@ -326,22 +296,12 @@ const RasterView = () => {
         </div>
       </div>
       <div className="lm_body">
-        <CursorOverlay value={cursor}></CursorOverlay>
+        <CursorOverlay></CursorOverlay>
         <div id="image-panel">
-          {isLoading ? (
-            <>
-              <Spin size="small" />
-              <Spin size="large" />
-            </>
-          ) : (
-            <>
-              <RasterChart
-                option={Option}
-                frame={frame}
-                changeCursor={changeCursor}></RasterChart>
-              <ColorBar option={colorBarOption}></ColorBar>
-            </>
-          )}
+          <>
+            <RasterChart option={Option} frame={frame}></RasterChart>
+            <ColorBar option={colorBarOption}></ColorBar>
+          </>
         </div>
       </div>
     </div>
