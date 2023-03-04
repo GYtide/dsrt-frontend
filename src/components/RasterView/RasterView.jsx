@@ -5,22 +5,14 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/grid'
 // import 'echarts/lib/chart/custom'
 import 'echarts/lib/component/dataZoom'
-import { ColorBar } from '../ColorBar/ColorBar'
+import ColorBar from '../ColorBar/ColorBar'
+import CursorOverlay from './CursorOverlay'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState,createContext } from 'react'
+
+import { Space, Spin } from 'antd'
 
 const Option = {
-  tooltip: {
-    triggerOn: 'none',
-    formatter: function (params) {
-      return (
-        'X: ' +
-        params.data[0].toFixed(2) +
-        '<br>Y: ' +
-        params.data[1].toFixed(2)
-      )
-    },
-  },
   grid: {
     top: '2%',
     bottom: '5%',
@@ -29,8 +21,8 @@ const Option = {
   },
   xAxis: [
     {
-      min: -128,
-      max: 128,
+      min: -64,
+      max: 192,
       type: 'value',
       position: 'top',
       axisLine: { onZero: false },
@@ -47,8 +39,8 @@ const Option = {
       },
     },
     {
-      min: -128,
-      max: 128,
+      min: -64,
+      max: 192,
       type: 'value',
       position: 'bottom',
       axisLine: { onZero: false },
@@ -62,8 +54,8 @@ const Option = {
   ],
   yAxis: [
     {
-      min: -30,
-      max: 128,
+      min: -8,
+      max: 140,
       type: 'value',
       axisLine: { onZero: false },
       axisTick: {
@@ -74,8 +66,8 @@ const Option = {
       },
     },
     {
-      min: -30,
-      max: 128,
+      min: -8,
+      max: 140,
       type: 'value',
       position: 'right',
       axisLabel: {
@@ -115,64 +107,88 @@ const Option = {
   ],
 }
 
-function RasterChart({ option, data }) {
-  const domRef = useRef()
-  const initChart = (canvas) => {
-    const myChart = echarts.init(domRef.current) //初始化echarts
-    //设置options
-    myChart.setOption({
-      ...option,
-      series: [
-        {
-          type: 'custom',
-          geoIndex: 0,
-          renderItem: function (params, api) {
-            var x = myChart.convertToPixel('grid', [-64])[0]
-            var y = myChart.convertToPixel('grid', [, 120])[1]
-            console.log(params.coordSys)
-            return {
-              type: 'image',
-              style: {
-                image: canvas,
-                x: x,
-                y: y,
-                width:
-                  myChart.convertToPixel('grid', [64, 40])[0] -
-                  myChart.convertToPixel('grid', [-64, 40])[0],
-                height:
-                  myChart.convertToPixel('grid', [64, 40])[0] -
-                  myChart.convertToPixel('grid', [-64, 40])[0],
-              },
-              z: -1,
-            }
-          },
-          clip: true,
-          silent: true,
-          data: [0],
+const colorBarOption = {
+  animation: false,
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    top: '2%',
+    containLabel: true,
+  },
+  xAxis: [
+    {
+      type: 'category',
+      data: ['Hot'],
+      axisTick: {
+        alignWithLabel: true,
+      },
+    },
+  ],
+  yAxis: [
+    {
+      data: [30, 49, 26, 60, 26], //数据
+      type: 'value',
+      axisTick: {
+        alignWithLabel: true,
+      },
+      position: 'right',
+      axisLabel: {
+        rotate: 90,
+        formatter: function (value, index) {
+          // value = parseFloat(value)
+          // //保留小数位数
+          // return value.toFixed(1)
+          return value.toExponential(1)
         },
-      ],
-    })
-  }
+      },
+    },
+  ],
+  series: [
+    {
+      type: 'bar',
+      barWidth: 70,
+      data: [30, 49, 26, 60, 26], //数据
+      itemStyle: {
+        normal: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: '#06B5D7' }, //柱图渐变色
+            { offset: 0.5, color: '#44C0C1' }, //柱图渐变色
+            { offset: 1, color: '#71C8B1' }, //柱图渐变色
+          ]),
+        },
+        emphasis: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: '#71C8B1' }, //柱图高亮渐变色
+            { offset: 0.7, color: '#44C0C1' }, //柱图高亮渐变色
+            { offset: 1, color: '#06B5D7' }, //柱图高亮渐变色
+          ]),
+        },
+      },
+    },
+  ],
+}
+
+function RasterChart({ option, frame, changeCursor }) {
+  const domRef = useRef()
   useEffect(() => {
     var canvas = document.createElement('canvas')
     canvas.width = 128
     canvas.height = 128
     var ctx = canvas.getContext('2d')
-    if (data) {
-      console.log(data)
+    if (frame) {
       // 找到数组中的最小值和最大值
-      const minValue = Math.min(...data)
-      const maxValue = Math.max(...data)
+      const minValue = Math.min(...frame)
+      const maxValue = Math.max(...frame)
 
       // 归一化至0到1之间
-      const normalized = data.map(
+      const normalized = frame.map(
         (value) => (value - minValue) / (maxValue - minValue)
       )
 
       // 缩放至0到255之间
       const scaled = normalized.map((value) => Math.round(value * 255))
       var rasterdata = []
-      console.log(scaled)
 
       for (let i = 0; i < scaled.length; ++i) {
         rasterdata[4 * i] = scaled[i]
@@ -184,18 +200,107 @@ function RasterChart({ option, data }) {
       imageData.data.set(rasterdata)
       ctx.putImageData(imageData, 0, 0)
     }
-    initChart(canvas)
-  }, [])
+    const myChart = echarts.init(domRef.current) //初始化echarts
+    //设置options
+    myChart.setOption({
+      ...option,
+      tooltip: {
+        // trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          crossStyle: {
+            color: '#999',
+          },
+        },
+        formatter: function (params) {
+          return ``
+        },
+        position: function (point, params, dom) {
+          // 指定 tooltip 的位置，可以根据需要调整
+          return [point[0] + 10, point[1] - 50]
+        },
+        backgroundColor: '#fff',
+        borderColor: '#ccc',
+        borderWidth: 1,
+        padding: 5,
+        textStyle: {
+          color: '#333',
+        },
+      },
+      series: [
+        {
+          type: 'custom',
+          geoIndex: 0,
+          renderItem: function (params, api) {
+            var x = myChart.convertToPixel('grid', [0, 0])[0]
+            var y = myChart.convertToPixel('grid', [0, 128])[1]
+            return {
+              type: 'image',
+              style: {
+                image: canvas,
+                x: x,
+                y: y,
+                width:
+                  myChart.convertToPixel('grid', [128, 40])[0] -
+                  myChart.convertToPixel('grid', [0, 40])[0],
+                height:
+                  myChart.convertToPixel('grid', [128, 40])[0] -
+                  myChart.convertToPixel('grid', [0, 40])[0],
+              },
+              z: -1,
+            }
+          },
+          clip: true,
+          silent: true,
+          data: [0],
+        },
+      ],
+    })
+    myChart.getZr().on('mousemove', function (params) {
+      const coords = myChart.convertFromPixel({ seriesIndex: 0 }, [
+        params.offsetX,
+        params.offsetY,
+      ])
+      changeCursor({
+        x: coords[0],
+        y: coords[1],
+      })
+    })
+  }, [frame])
   return (
     <>
       <div ref={domRef} style={{ flex: 25 }}></div>
     </>
   )
 }
+
+/**
+ *
+ *  RasterView 是展示栅格数据的组件有3个子组件 ColorBar、 RasterChart、 CursorOverlay
+ *  ColorBar:颜色数据对照表
+ *  RasterChart:基于echarts展示数据
+ *  CursorOverlay:显示目前指向的数据
+ */
+
+
 const RasterView = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [data, setData] = useState(null)
+  const [frame, setFrame] = useState(null)
+  const [cursor, setCusor] = useState({ x: 0, y: 0, data: 0 }) //指针所指向的位置对应的值
+  const [cursorInfo, setCusorInfo] = useState([]) // 指针所指向的位置对应的 X、Y切面图
+  // 修改当前的鼠标指针值 newCursor = {x:xcoods,ycoods}
+  const changeCursor = (newCursor) => {
+    let x = Math.floor(newCursor.x)
+    let y = Math.floor(newCursor.y)
+    setCusor({ x: x, y: y, data: 0 })
+    if (x > 0 && x < 128 && y > 0 && y < 128 && frame) {
+      // setCusorInfo()
+    }
+  }
 
+  /**
+   * 获取
+   */
   const getData = async () => {
     setIsLoading(true)
     const dataRes = await fetch('/data/image/image.bin', {
@@ -204,7 +309,7 @@ const RasterView = () => {
     })
 
     const data = new Float32Array(await dataRes.arrayBuffer())
-    setData(data)
+    setFrame(data)
     setIsLoading(false)
   }
 
@@ -216,21 +321,25 @@ const RasterView = () => {
       <div className="lm_header">
         <div className="tabs">
           <span className="tab_title">
-            ODACH_DSRT05_SRSP_L1_05M_20220212081001_V01.01.fits
+            ODACH_DSRT05_SRSP_L1_05M_202202 12081001_V01.01.fits
           </span>
         </div>
       </div>
       <div className="lm_body">
+        <CursorOverlay value={cursor}></CursorOverlay>
         <div id="image-panel">
           {isLoading ? (
             <>
-              <RasterChart option={Option} data={null}></RasterChart>
-              <ColorBar></ColorBar>
+              <Spin size="small" />
+              <Spin size="large" />
             </>
           ) : (
             <>
-              <RasterChart option={Option} data={data}></RasterChart>
-              <ColorBar></ColorBar>
+              <RasterChart
+                option={Option}
+                frame={frame}
+                changeCursor={changeCursor}></RasterChart>
+              <ColorBar option={colorBarOption}></ColorBar>
             </>
           )}
         </div>
