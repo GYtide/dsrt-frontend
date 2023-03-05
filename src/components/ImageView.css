@@ -1,8 +1,8 @@
 .imageView {
-  height: 99%;
-  width: 99%;
+  height: 95%;
+  width: 98%;
   position: absolute;
-  top: 0;
+  top: 48px;
   left: 0;
   z-index: -100;
   user-select: none;
@@ -12,8 +12,6 @@
   /* justify-content: center; */
   align-items: center;
 }
-
-
 
 .gl-container-app {
   position: relative;

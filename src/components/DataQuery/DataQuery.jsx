@@ -8,17 +8,19 @@ import OverView from '../OverView/OverView'
 const DataQuery = () => {
   const date = { year: 2023, month: 1, day: 1 }
   return (
-    <div className='queryview'>
+    <>
       <NavBar></NavBar>
-      {/* <DropDown></DropDown> */}
-      <div className="overview">
-        <DataCalendar></DataCalendar>
-        <div className="queryout">
-          <FileTab flex={2}></FileTab>
-          <OverView flex={1} date={{ date }}></OverView>
+      <div className="queryview">
+        {/* <DropDown></DropDown> */}
+        <div className="overview">
+          <DataCalendar></DataCalendar>
+          <div className="queryout">
+            <FileTab flex={2}></FileTab>
+            <OverView flex={1} date={{ date }}></OverView>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

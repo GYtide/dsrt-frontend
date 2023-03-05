@@ -50,28 +50,30 @@ export const ImageView = ({ fitsid }) => {
           <Spin size="large" />
         </>
       ) : (
-        <div className="imageView">
+        <>
           <NavBar></NavBar>
-          <frameContext.Provider value={{ frame, setframe }}>
-            <cursorContext.Provider value={{ cursor, setCursor }}>
-              <div className="gl-container-app">
-                <div className="lm_item_left">
-                  <RasterView></RasterView>
-                  <div className="lm_splitter_horizontal"></div>
-                  <Histogram></Histogram>
+          <div className="imageView">
+            <frameContext.Provider value={{ frame, setframe }}>
+              <cursorContext.Provider value={{ cursor, setCursor }}>
+                <div className="gl-container-app">
+                  <div className="lm_item_left">
+                    <RasterView></RasterView>
+                    <div className="lm_splitter_horizontal"></div>
+                    <Histogram></Histogram>
+                  </div>
+                  <div className="lm_splitter_vertical"></div>
+                  <div className="lm_item_right">
+                    <ToolPanel></ToolPanel>
+                    <div className="lm_splitter_horizontal"></div>
+                    <CursorInfo></CursorInfo>
+                    <div className="lm_splitter_horizontal"></div>
+                    <InfoContainer></InfoContainer>
+                  </div>
                 </div>
-                <div className="lm_splitter_vertical"></div>
-                <div className="lm_item_right">
-                  <ToolPanel></ToolPanel>
-                  <div className="lm_splitter_horizontal"></div>
-                  <CursorInfo></CursorInfo>
-                  <div className="lm_splitter_horizontal"></div>
-                  <InfoContainer></InfoContainer>
-                </div>
-              </div>
-            </cursorContext.Provider>
-          </frameContext.Provider>
-        </div>
+              </cursorContext.Provider>
+            </frameContext.Provider>
+          </div>
+        </>
       )}
     </>
   )
