@@ -22,6 +22,6 @@ const CalendarCharts = ({ option }) => {
   useEffect(() => {
     initChart()
   }, [])
-  return <div ref={domRef} style={{ flex: 1 }}></div>
+  return <div ref={domRef} style={{ flex: 4 }}></div>
 }
 export default CalendarCharts
