@@ -38,19 +38,25 @@ export const CursorInfo = () => {
         var ycoordata = frame.filter(
           (_, index) => Math.floor(index / 128) === cursor.y
         )
-        console.log(ycoordata)
         echartsInstance.setOption({
           xAxis: [
             {
               type: 'category',
-              // boundaryGap: false,
-              // data: xcoordata.map((_, index) => index),
               axisLine: { onZero: false },
+              gridIndex: 0,
             },
             {
               type: 'category',
-              // boundaryGap: false,
-              // data: Array.from({ length: 128 }, (_, index) => index + 1),
+              axisLine: { onZero: false },
+              gridIndex: 0,
+            },
+            {
+              type: 'category',
+              axisLine: { onZero: false },
+              gridIndex: 1,
+            },
+            {
+              type: 'category',
               axisLine: { onZero: false },
               gridIndex: 1,
             },
@@ -64,6 +70,7 @@ export const CursorInfo = () => {
                 },
                 fontSize: 10,
               },
+              // gridIndex: 0,
             },
             {
               type: 'value',
@@ -82,6 +89,8 @@ export const CursorInfo = () => {
               data: Array.from(ycoordata),
               type: 'line',
               dimensions: [null],
+              xAxisIndex: [0, 1],
+              yAxisIndex: 0,
               itemStyle: {
                 normal: {
                   lineStyle: {
@@ -94,7 +103,7 @@ export const CursorInfo = () => {
               symbol: 'none',
               data: Array.from(xcoordata),
               type: 'line',
-              xAxisIndex: 1,
+              xAxisIndex: [2, 3],
               yAxisIndex: 1,
               dimensions: [null],
               itemStyle: {
