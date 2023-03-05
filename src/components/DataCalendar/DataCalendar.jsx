@@ -1,19 +1,21 @@
 import React from 'react'
 import { Option } from './option'
-import { CalendarCharts } from './CalendarCharts'
+import CalendarCharts from './CalendarCharts'
 import './DataCalendar.css'
-export class DataCalendar extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-  render() {
-    const year = 2023
-    const { width = '80%', height = '100%' } = this.props
-    return (
-      <CalendarCharts
-        option={Option}
-        year={year}
-        style={{ flex: 1, width }}></CalendarCharts>
-    )
-  }
+
+/**
+ * 年份选择
+ */
+const DataSelect = () => {
+  return <div> </div>
 }
+
+const DataCalendar = () => {
+  return
+  <div className="date-select">
+    <CalendarCharts option={Option}></CalendarCharts>
+    <DataSelect></DataSelect>
+  </div>
+}
+
+export default DataCalendar

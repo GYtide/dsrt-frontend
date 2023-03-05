@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavBar } from '../NavBar/NavBar'
-import { DataCalendar } from '../DataCalendar/DataCalendar'
+import DataCalendar from '../DataCalendar/DataCalendar'
 import './DataQuery.css'
 import { DropDown } from '../DropDown/DropDown'
 import FileTab from '../FileList/FileTab'
@@ -11,7 +11,6 @@ const DataQuery = () => {
     <>
       <NavBar></NavBar>
       <div className="queryview">
-        {/* <DropDown></DropDown> */}
         <div className="overview">
           <DataCalendar></DataCalendar>
           <div className="queryout">
