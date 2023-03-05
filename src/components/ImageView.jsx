@@ -3,6 +3,7 @@ import { Histogram } from './Histogram'
 import { CursorInfo } from './CursorInfo/CursorInfo'
 import { InfoContainer } from './InfoContainer'
 import { NavBar } from './NavBar/NavBar'
+import { ToolPanel } from './ToolsPanel/ToolsPanel'
 import styles from './ImageView.css'
 import { useState, useContext, createContext, useEffect } from 'react'
 import { Space, Spin } from 'antd'
@@ -15,7 +16,7 @@ export const ImageView = ({ fitsid }) => {
   const [cursor, setCursor] = useState({ x: 0, y: 0 }) //指针所指向的位置对应的值
   // const [fitsid, setfitsid] = useState('IMG2021010101') //当前预览文件
   const [hdu, sethdu] = useState('') //当前hdu文件头信息
-  const [frame, setframe] = useState(null) //当前帧(帧序列)
+  const [frame, setframe] = useState([]) //当前帧(帧序列)
   const [renderoption, setrenderoption] = useState('') //渲染参数
 
   // const onchangeCursor = () => {}
@@ -39,7 +40,6 @@ export const ImageView = ({ fitsid }) => {
       setIsLoading(false)
     }
     loadingFile()
-    console.log(frame)
   }, [])
 
   return (
@@ -62,7 +62,7 @@ export const ImageView = ({ fitsid }) => {
                 </div>
                 <div className="lm_splitter_vertical"></div>
                 <div className="lm_item_right">
-                  <CursorInfo></CursorInfo>
+                  <ToolPanel></ToolPanel>
                   <div className="lm_splitter_horizontal"></div>
                   <CursorInfo></CursorInfo>
                   <div className="lm_splitter_horizontal"></div>

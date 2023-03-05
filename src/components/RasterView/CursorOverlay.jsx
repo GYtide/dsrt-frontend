@@ -10,7 +10,7 @@ const CursorOverlay = () => {
   const { frame, setframe } = useContext(frameContext)
   return (
     <div className="cursor-overlay">
-      {cursor.x >= 0 && cursor.y < 128 && cursor.y >= 0 && cursor.y < 128 ? (
+      {cursor.x >= 0 && cursor.x < 128 && cursor.y >= 0 && cursor.y < 128 ? (
         <div className="cursor-overlay-view">{`(${cursor.x} ,${
           cursor.y
         }) value:${frame[cursor.y * 128 + cursor.x]}`}</div>
