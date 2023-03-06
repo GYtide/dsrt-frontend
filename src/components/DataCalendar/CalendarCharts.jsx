@@ -10,7 +10,9 @@ const CalendarCharts = ({ option, flex }) => {
   const domRef = useRef()
   const initChart = () => {
     option.calendar.range = 1970
-    let myChart = echarts.init(domRef.current) //初始化echarts
+    let myChart = echarts.init(domRef.current, null, {
+      renderer: 'svg',
+    }) //初始化echarts
     //设置options
     myChart.setOption(option)
     window.onresize = function () {
