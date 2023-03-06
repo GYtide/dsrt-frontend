@@ -4,13 +4,18 @@ import './DataCalendar.css'
 import { DatePicker, Select } from 'antd'
 import { dateContext } from '../DataQuery/DataQuery'
 import { useContext, useEffect, useState } from 'react'
-import moment from 'moment/moment'
+import dayjs from 'dayjs'
 
 /**
  * 年份选择
  */
 const DateSelect = ({ flex }) => {
   const { date, setDate } = useContext(dateContext)
+  console.log(dayjs(date))
+  const onChange = (date, dateString) => {
+    console.log(date, dateString)
+    setDate(date)
+  }
   // antd的组件没法直接读取js的date对象所以使用 moment 转换为 moment 时间对象
   return (
     <div style={{ flex: flex }}>
@@ -18,8 +23,9 @@ const DateSelect = ({ flex }) => {
       {
         <DatePicker
           size="large"
-          defaultValue={moment(date)}
+          value={dayjs(date)}
           picker="year"
+          onChange={onChange}
           className="select"></DatePicker>
       }
     </div>

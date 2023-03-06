@@ -10,9 +10,11 @@ import { createContext, useEffect, useState } from 'react'
 export const dateContext = createContext() //创建当前查询日期的共享状态
 const DataQuery = () => {
   const [date, setDate] = useState(new Date())
+  const [yearlist, setYearlist] = useState([])
   useEffect(() => {
-    // console.log(date)
-  })
+    //获取有数据的年份
+    fetch()
+  }, [])
   return (
     <>
       <NavBar></NavBar>
