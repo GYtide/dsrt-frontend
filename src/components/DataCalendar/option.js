@@ -1,4 +1,7 @@
 export const Option = {
+  dayLabel: {
+    nameMap: 'cn'
+  },
   tooltip: {},
   visualMap: {
     min: 0,
@@ -6,7 +9,6 @@ export const Option = {
     type: 'piecewise',
     orient: 'horizontal',
     left: 'center',
-    // bottom: 50,
     show: false
   },
   calendar: {

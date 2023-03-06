@@ -6,10 +6,10 @@ import 'echarts/lib/component/visualMap'
 import 'echarts/lib/component/visualMap'
 import { useRef, useEffect } from 'react'
 import { HeatmapChart } from 'echarts/charts'
-const CalendarCharts = ({ option, flex }) => {
+const CalendarCharts = ({ option, flex, range, data }) => {
   const domRef = useRef()
   const initChart = () => {
-    option.calendar.range = 1970
+    option.calendar.range = range
     let myChart = echarts.init(domRef.current, null, {
       renderer: 'svg',
     }) //初始化echarts

@@ -6,19 +6,26 @@ import { DropDown } from '../DropDown/DropDown'
 import FileTab from '../FileList/FileTab'
 import OverView from '../OverView/OverView'
 import { createContext, useEffect, useState } from 'react'
+
+export const dateContext = createContext() //创建当前查询日期的共享状态
 const DataQuery = () => {
-  const date = { year: 2023, month: 1, day: 1 }
+  const [date, setDate] = useState(new Date())
+  useEffect(() => {
+    // console.log(date)
+  })
   return (
     <>
       <NavBar></NavBar>
       <div className="queryview">
         <div className="overview">
-          {/* <h2>数据检索</h2> */}
-          <DataCalendar></DataCalendar>
-          <div className="queryout">
-            <FileTab flex={2}></FileTab>
-            <OverView flex={1} date={{ date }}></OverView>
-          </div>
+          <dateContext.Provider value={{ date, setDate }}>
+            {/* <h2>数据检索</h2> */}
+            <DataCalendar></DataCalendar>
+            <div className="queryout">
+              <FileTab flex={2}></FileTab>
+              <OverView flex={1}></OverView>
+            </div>
+          </dateContext.Provider>
         </div>
       </div>
     </>

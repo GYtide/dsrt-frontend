@@ -19,8 +19,6 @@ export const ImageView = ({ fitsid }) => {
   const [frame, setframe] = useState([]) //当前帧(帧序列)
   const [renderoption, setrenderoption] = useState('') //渲染参数
 
-  // const onchangeCursor = () => {}
-
   /**
    * 获取文件的基本参数和第一帧
    */
