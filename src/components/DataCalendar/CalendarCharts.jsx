@@ -6,8 +6,7 @@ import 'echarts/lib/component/visualMap'
 import 'echarts/lib/component/visualMap'
 import { useRef, useEffect } from 'react'
 import { HeatmapChart } from 'echarts/charts'
-echarts.use([HeatmapChart])
-const CalendarCharts = ({ option }) => {
+const CalendarCharts = ({ option, flex }) => {
   const domRef = useRef()
   const initChart = () => {
     option.calendar.range = 1970
@@ -22,6 +21,6 @@ const CalendarCharts = ({ option }) => {
   useEffect(() => {
     initChart()
   }, [])
-  return <div ref={domRef} style={{ flex: 4 }}></div>
+  return <div ref={domRef} style={{ flex: flex }}></div>
 }
 export default CalendarCharts
