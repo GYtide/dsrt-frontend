@@ -38,7 +38,7 @@ const OverView = (props) => {
       setIsLoading(false)
     }
 
-    fetchData()
+    // fetchData()
   }, [])
 
   const items = [

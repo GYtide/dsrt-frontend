@@ -23,9 +23,9 @@ const { createProxyMiddleware } = require('http-proxy-middleware')
 
 module.exports = function (app) {
   app.use(
-    '/data',
+    '/overview',
     createProxyMiddleware({
-      target: 'http://49.233.61.61',
+      target: 'http://127.0.0.1:8080',
       changeOrigin: true
     })
   )

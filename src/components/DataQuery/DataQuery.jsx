@@ -6,15 +6,15 @@ import { DropDown } from '../DropDown/DropDown'
 import FileTab from '../FileList/FileTab'
 import OverView from '../OverView/OverView'
 import { createContext, useEffect, useState } from 'react'
-
+import dayjs from 'dayjs'
 export const dateContext = createContext() //创建当前查询日期的共享状态
 const DataQuery = () => {
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState(dayjs(new Date()))
   const [yearlist, setYearlist] = useState([])
   useEffect(() => {
     //获取有数据的年份
-    fetch()
   }, [])
+
   return (
     <>
       <NavBar></NavBar>

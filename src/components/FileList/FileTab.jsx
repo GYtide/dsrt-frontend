@@ -7,11 +7,11 @@ const FileTab = (props) => (
     style={{ flex: props.flex }}
     onChange={onChange}
     type="card"
-    items={new Array('image', 'spetrum').map((value, index) => {
+    items={new Array('成像数据', '频谱数据').map((value, index) => {
       return {
         label: `${value}`,
         key: index,
-        children: `Content of Tab Pane ${value}`,
+        children: `Content of Tab Pane `,
       }
     })}
   />
