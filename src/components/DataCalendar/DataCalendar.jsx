@@ -4,14 +4,16 @@ import './DataCalendar.css'
 import { DatePicker, Select } from 'antd'
 import { dateContext } from '../DataQuery/DataQuery'
 import { useContext, useEffect, useState } from 'react'
+import { Spin } from 'antd'
 
 /**
  * 年份选择
  */
 const DateSelect = ({ flex }) => {
   const { date, setDate } = useContext(dateContext)
-  const onChange = (asd, dateString) => {
-    setDate(asd)
+
+  const onChange = (date, dateString) => {
+    setDate(date)
   }
   // antd的组件没法直接读取js的date对象所以使用 moment 转换为 moment 时间对象
   return (
@@ -31,13 +33,45 @@ const DateSelect = ({ flex }) => {
 
 const DataCalendar = () => {
   const { date, setDate } = useContext(dateContext)
+  const [isLoading, setIsLoading] = useState(false)
+  const [dateData, setDatedata] = useState([])
+
+  const onChange = (date, dateString) => {
+    setDate(date)
+  }
+
+  useEffect(() => {
+    setIsLoading(true)
+    const getDateData = async (year) => {
+      const dataRes = await fetch(`/overview/yearlist?year=${year}`, {
+        method: 'get',
+      })
+      const data = await dataRes.json()
+      setDatedata(data)
+    }
+    getDateData(date.year())
+    setIsLoading(false)
+  }, [date])
+
   return (
     <div className="date-select">
-      <CalendarCharts
-        option={Option}
-        flex={2}
-        range={date.year()}></CalendarCharts>
-      <DateSelect flex={1}></DateSelect>
+      <>
+        {isLoading ? (
+          <>
+            <Spin></Spin>
+            <DateSelect flex={1}></DateSelect>
+          </>
+        ) : (
+          <>
+            <CalendarCharts
+              option={Option}
+              flex={2}
+              range={date.year()}
+              data={dateData}></CalendarCharts>
+            <DateSelect flex={1}></DateSelect>
+          </>
+        )}
+      </>
     </div>
   )
 }
