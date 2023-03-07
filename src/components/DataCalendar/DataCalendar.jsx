@@ -34,7 +34,7 @@ const DateSelect = ({ flex }) => {
 const DataCalendar = () => {
   const { date, setDate } = useContext(dateContext)
   const [isLoading, setIsLoading] = useState(false)
-  const [dateData, setDatedata] = useState([])
+  const [dateData, setDatedata] = useState([]) //当前选择年中有数据的日期
 
   const onChange = (date, dateString) => {
     setDate(date)

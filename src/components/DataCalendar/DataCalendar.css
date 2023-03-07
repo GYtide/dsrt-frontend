@@ -1,7 +1,8 @@
 .date-select {
   height: 200px;
-  width: 100%;
+  width: 90%;
   display: flex;
+  margin: auto;
   flex-direction: row;
 }
 
