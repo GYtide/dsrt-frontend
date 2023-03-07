@@ -1,9 +1,11 @@
 .date-select {
-  height: 200px;
-  width: 90%;
+  height: 150px;
+  width: 100%;
   display: flex;
-  margin: auto;
+  margin: 10px auto;
   flex-direction: row;
+  border: 1px solid #d0d7d1;
+  border-radius: 7px;
 }
 
 .select {
