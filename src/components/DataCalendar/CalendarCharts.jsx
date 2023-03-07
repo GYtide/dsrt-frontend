@@ -23,7 +23,7 @@ const CalendarCharts = ({ option, flex, range, data }) => {
     }
     setEchartsInstance(myChart)
   }, [])
-
+ 
   //当切换年份时刷新
   useEffect(() => {
     if (echartsInstance) {

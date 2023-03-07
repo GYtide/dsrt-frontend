@@ -65,7 +65,7 @@ const DataCalendar = () => {
           <>
             <CalendarCharts
               option={Option}
-              flex={2}
+              flex={3}
               range={date.year()}
               data={dateData}></CalendarCharts>
             <DateSelect flex={1}></DateSelect>
