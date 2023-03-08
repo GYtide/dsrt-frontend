@@ -7,6 +7,7 @@ import 'echarts/lib/component/grid'
 import 'echarts/lib/component/dataZoom'
 import ColorBar from '../ColorBar/ColorBar'
 import CursorOverlay from './CursorOverlay'
+import { array2canvasctx } from '../../util/array2canvasctx'
 import { frameContext, cursorContext } from '../ImageView'
 import { useEffect, useRef, useState, createContext, useContext } from 'react'
 
@@ -161,17 +162,21 @@ const colorBarOption = {
 
 function RasterChart({ option, frame }) {
   const { cursor, setCursor } = useContext(cursorContext)
+  const [canvasInstance, setCanvasInstance] = useState([])
   const domRef = useRef()
   useEffect(() => {
     var canvas = document.createElement('canvas')
     canvas.width = 128
     canvas.height = 128
+
     var ctx = canvas.getContext('2d')
     if (frame) {
       // 找到数组中的最小值和最大值
       const minValue = Math.min(...frame)
       const maxValue = Math.max(...frame)
 
+      array2canvasctx(canvas, frame, 'gray', minValue, maxValue)
+      setCanvasInstance(canvas)
       // 归一化至0到1之间
       const normalized = frame.map(
         (value) => (value - minValue) / (maxValue - minValue)
@@ -230,7 +235,7 @@ function RasterChart({ option, frame }) {
             return {
               type: 'image',
               style: {
-                image: canvas,
+                image: canvasInstance,
                 x: x,
                 y: y,
                 width:
@@ -258,7 +263,7 @@ function RasterChart({ option, frame }) {
         y = Math.floor(coords[1])
       setCursor({ x: x, y: y })
     })
-  }, [frame])
+  }, [frame, canvasInstance])
   return (
     <>
       <div ref={domRef} style={{ flex: 25 }}></div>
