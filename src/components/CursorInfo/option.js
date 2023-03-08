@@ -9,14 +9,8 @@ export const option = {
   grid: [{
     left: '8%',
     right: '4%',
-    top: '50%',
-    bottom: '5%'
+    top: '5%',
+    bottom: '8%'
     // containLabel: true 
-  },
-  {
-    left: '8%',
-    right: '4%',
-    bottom: '56%',
-    top: '5%'
   }]
 }

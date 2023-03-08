@@ -7,7 +7,7 @@ import { useEffect, useState, useRef, useContext } from 'react'
 import { option } from './option'
 import { frameContext, cursorContext } from '../ImageView'
 
-export const CursorInfo = () => {
+export const CursorInfo = ({ coords }) => {
   const { cursor, setCursor } = useContext(cursorContext)
   const { frame, setframe } = useContext(frameContext)
   /**
@@ -34,11 +34,20 @@ export const CursorInfo = () => {
     if (echartsInstance) {
       //首次加载时echartsInstance未被初始化，所以进行一下判断
       if (cursor.x >= 0 && cursor.x < 128 && cursor.y >= 0 && cursor.y < 128) {
-        var xcoordata = frame.filter((_, index) => index % 128 == cursor.x)
-        var ycoordata = frame.filter(
-          (_, index) => Math.floor(index / 128) === cursor.y
-        )
+        var coordata = []
+        console.log(coords)
+        if (coords == 'x') {
+          coordata = frame.filter((_, index) => index % 128 == cursor.x)
+        } else {
+          coordata = frame.filter(
+            (_, index) => Math.floor(index / 128) === cursor.y
+          )
+        }
+
         echartsInstance.setOption({
+          tooltip: {
+            trigger: 'axis',
+          },
           xAxis: [
             {
               type: 'category',
@@ -49,16 +58,6 @@ export const CursorInfo = () => {
               type: 'category',
               axisLine: { onZero: false },
               gridIndex: 0,
-            },
-            {
-              type: 'category',
-              axisLine: { onZero: false },
-              gridIndex: 1,
-            },
-            {
-              type: 'category',
-              axisLine: { onZero: false },
-              gridIndex: 1,
             },
           ],
           yAxis: [
@@ -72,21 +71,11 @@ export const CursorInfo = () => {
               },
               // gridIndex: 0,
             },
-            {
-              type: 'value',
-              axisLabel: {
-                formatter: function (value, index) {
-                  return value.toExponential(1)
-                },
-                fontSize: 10,
-              },
-              gridIndex: 1,
-            },
           ],
           series: [
             {
               symbol: 'none',
-              data: Array.from(ycoordata),
+              data: Array.from(coordata),
               type: 'line',
               dimensions: [null],
               xAxisIndex: [0, 1],
@@ -100,23 +89,15 @@ export const CursorInfo = () => {
                 },
               },
             },
-            {
-              symbol: 'none',
-              data: Array.from(xcoordata),
-              type: 'line',
-              xAxisIndex: [2, 3],
-              yAxisIndex: 1,
-              dimensions: [null],
-              itemStyle: {
-                normal: {
-                  lineStyle: {
-                    color: '#106ba3',
-                    width: 1, //设置线条粗细
-                  },
-                },
-              },
-            },
           ],
+        })
+
+        // 设置 tooltip
+        let index = coords == 'x' ? cursor.x : cursor.y
+        echartsInstance.dispatchAction({
+          type: 'showTip',
+          seriesIndex: 0,
+          dataIndex: index,
         })
       }
     }

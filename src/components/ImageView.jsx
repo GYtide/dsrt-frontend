@@ -61,9 +61,10 @@ export const ImageView = ({ fitsid }) => {
                   </div>
                   <div className="lm_splitter_vertical"></div>
                   <div className="lm_item_right">
-                    <ToolPanel></ToolPanel>
+                    {/* <ToolPanel></ToolPanel> */}
+                    <CursorInfo coords={'x'}></CursorInfo>
                     <div className="lm_splitter_horizontal"></div>
-                    <CursorInfo></CursorInfo>
+                    <CursorInfo coords={'y'}></CursorInfo>
                     <div className="lm_splitter_horizontal"></div>
                     <InfoContainer></InfoContainer>
                   </div>
