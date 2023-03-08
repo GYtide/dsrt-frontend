@@ -162,39 +162,24 @@ const colorBarOption = {
 
 function RasterChart({ option, frame }) {
   const { cursor, setCursor } = useContext(cursorContext)
-  const [canvasInstance, setCanvasInstance] = useState([])
+  const [canvasInstance, setCanvasInstance] = useState(null)
   const domRef = useRef()
+
   useEffect(() => {
     var canvas = document.createElement('canvas')
     canvas.width = 128
     canvas.height = 128
+    setCanvasInstance(canvas)
+  }, [])
 
-    var ctx = canvas.getContext('2d')
-    if (frame) {
+  useEffect(() => {
+    // var ctx = canvas.getContext('2d')
+    if (frame && canvasInstance) {
       // 找到数组中的最小值和最大值
       const minValue = Math.min(...frame)
       const maxValue = Math.max(...frame)
 
-      array2canvasctx(canvas, frame, 'gray', minValue, maxValue)
-      setCanvasInstance(canvas)
-      // 归一化至0到1之间
-      const normalized = frame.map(
-        (value) => (value - minValue) / (maxValue - minValue)
-      )
-
-      // 缩放至0到255之间
-      const scaled = normalized.map((value) => Math.round(value * 255))
-      var rasterdata = []
-
-      for (let i = 0; i < scaled.length; ++i) {
-        rasterdata[4 * i] = scaled[i]
-        rasterdata[4 * i + 1] = scaled[i]
-        rasterdata[4 * i + 2] = scaled[i]
-        rasterdata[4 * i + 3] = 255
-      }
-      var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-      imageData.data.set(rasterdata)
-      ctx.putImageData(imageData, 0, 0)
+      array2canvasctx(canvasInstance, frame, 'gray', minValue, maxValue)
     }
     const myChart = echarts.init(domRef.current, null, {
       renderer: 'svg',

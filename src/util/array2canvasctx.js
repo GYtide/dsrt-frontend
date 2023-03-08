@@ -1,5 +1,3 @@
-
-
 /**
  * 
  * @param {*} arr - 数据数组
@@ -10,6 +8,7 @@
  */
 
 export function array2canvasctx (canvas, arr, colormap, min, max) {
+  console.log(canvas)
   var ctx = canvas.getContext('2d')
   ctx.scale(1, -1)
   // 使用translate()函数调整y轴位置

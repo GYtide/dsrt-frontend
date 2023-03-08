@@ -131,7 +131,7 @@ function ViewChart({ Data, style }) {
               return {
                 type: 'image',
                 style: {
-                  image: echartsInstance,
+                  image: canvasInstance,
                   x: x,
                   y: y,
                   width:
@@ -151,7 +151,7 @@ function ViewChart({ Data, style }) {
         ],
       })
     }
-  }, [Data])
+  }, [Data, canvasInstance])
   return (
     <>
       <div ref={domRef} style={{ flex: 1 }}></div>

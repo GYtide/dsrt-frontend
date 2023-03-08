@@ -6,6 +6,7 @@ import { NavBar } from './NavBar/NavBar'
 import { ToolPanel } from './ToolsPanel/ToolsPanel'
 import styles from './ImageView.css'
 import { useState, useContext, createContext, useEffect } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
 import { Space, Spin } from 'antd'
 
 export const frameContext = createContext() //帧数据(数据矩阵以及横纵坐标参数)
@@ -18,6 +19,10 @@ export const ImageView = ({ fitsid }) => {
   const [hdu, sethdu] = useState('') //当前hdu文件头信息
   const [frame, setframe] = useState([]) //当前帧(帧序列)
   const [renderoption, setrenderoption] = useState('') //渲染参数
+  const location = useLocation()
+  const params = useParams()
+
+  console.log(params)
 
   /**
    * 获取文件的基本参数和第一帧

@@ -35,7 +35,6 @@ export const CursorInfo = ({ coords }) => {
       //首次加载时echartsInstance未被初始化，所以进行一下判断
       if (cursor.x >= 0 && cursor.x < 128 && cursor.y >= 0 && cursor.y < 128) {
         var coordata = []
-        console.log(coords)
         if (coords == 'x') {
           coordata = frame.filter((_, index) => index % 128 == cursor.x)
         } else {
