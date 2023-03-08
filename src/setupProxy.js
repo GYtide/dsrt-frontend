@@ -29,4 +29,12 @@ module.exports = function (app) {
       changeOrigin: true
     })
   )
+
+  app.use(
+    '/data',
+    createProxyMiddleware({
+      target: 'http://49.233.61.61',
+      changeOrigin: true
+    })
+  )
 }

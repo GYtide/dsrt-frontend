@@ -10,3 +10,16 @@
 .cursor-overlay-view {
   margin-left: 50px;
 }
+
+/* 设置svg image的属性来关闭抗锯齿 */
+
+svg image {
+  shape-rendering: crispEdges;
+  image-rendering: -moz-crisp-edges;
+  /* Firefox */
+  image-rendering: -webkit-optimize-contrast;
+  /* Webkit */
+  /* image-rendering: pixelated; */
+  /* CSS4 */
+  /* image-rendering: crisp-edges; */
+}

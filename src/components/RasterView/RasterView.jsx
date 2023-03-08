@@ -89,16 +89,6 @@ const Option = {
       xAxisIndex: [0, 1],
       filterMode: 'none',
     },
-    // {
-    //   type: 'slider',
-    //   xAxisIndex: [0, 1],
-    //   filterMode: 'none',
-    // },
-    // {
-    //   type: 'slider',
-    //   yAxisIndex: [0, 1],
-    //   filterMode: 'none',
-    // },
     {
       type: 'inside',
       yAxisIndex: [0, 1],
@@ -201,7 +191,9 @@ function RasterChart({ option, frame }) {
       imageData.data.set(rasterdata)
       ctx.putImageData(imageData, 0, 0)
     }
-    const myChart = echarts.init(domRef.current) //初始化echarts
+    const myChart = echarts.init(domRef.current, null, {
+      renderer: 'svg',
+    }) //初始化echarts
     //设置options
     myChart.setOption({
       ...option,

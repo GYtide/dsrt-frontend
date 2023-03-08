@@ -50,7 +50,6 @@ export const ImageView = ({ fitsid }) => {
       ) : (
         <>
           <NavBar></NavBar>
-          <div>数据检索</div>
           <div className="imageView">
             <frameContext.Provider value={{ frame, setframe }}>
               <cursorContext.Provider value={{ cursor, setCursor }}>

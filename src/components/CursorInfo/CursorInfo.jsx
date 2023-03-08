@@ -95,6 +95,7 @@ export const CursorInfo = () => {
                 normal: {
                   lineStyle: {
                     color: '#106ba3',
+                    width: 1, //设置线条粗细
                   },
                 },
               },
@@ -110,6 +111,7 @@ export const CursorInfo = () => {
                 normal: {
                   lineStyle: {
                     color: '#106ba3',
+                    width: 1, //设置线条粗细
                   },
                 },
               },
