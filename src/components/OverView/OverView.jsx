@@ -1,45 +1,27 @@
 import { Tabs } from 'antd'
 import ViewChart from './ViewChart'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useContext } from 'react'
 import { http } from '../../util'
 import './index.css'
+import { dateContext, isLoadingContext } from '../DataQuery/DataQuery'
 const Tab = () => <Tabs />
 
 const OverView = (props) => {
-  // const [date, setDate] = useState(props.date)
-  const [isLoading, setIsLoading] = useState(true)
-  const [time, setTime] = useState([])
-  const [data, setData] = useState([])
-  const [pixel, setPixel] = useState([])
-
+  const { date, setDate } = useContext(dateContext)
+  const { isLoading, setIsLoading } = useContext(isLoadingContext)
+  const [projectimg, setprojectimg] = useState([])
+  const [speovimg, setspeovimg] = useState([])
   useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true)
-      const dataRes = await fetch('/data/1d/1ddata.bin', {
-        method: 'get',
-        responseType: 'arraybuffer',
-      })
-      const timeRes = await fetch('/data/1d/1dtime.bin', {
-        method: 'get',
-        responseType: 'arraybuffer',
-      })
-      const pixelRes = await fetch('/data/1d/pix.bin', {
-        method: 'get',
-        responseType: 'arraybuffer',
-      })
-
-      const data = new Float32Array(await dataRes.arrayBuffer())
-      const time = new Uint32Array(await timeRes.arrayBuffer())
-      const pixel = new Uint8Array(await pixelRes.arrayBuffer())
-
-      setTime(time)
-      setData(data)
-      setPixel(pixel)
-      setIsLoading(false)
+    async function fetchData(datestr) {
+      var resData = await fetch(`overview/projectview/?date=${datestr}`).then(
+        (res) => res.json()
+      )
+      setprojectimg(resData)
     }
-
-    // fetchData()
-  }, [])
+    setIsLoading(true)
+    fetchData(date.format('YYYY-MM-DD'))
+    setIsLoading(false)
+  }, [date])
 
   const items = [
     {
@@ -47,21 +29,19 @@ const OverView = (props) => {
       label: `Tab 1`,
       children: (
         <div className="chartspanel">
-          {isLoading ? (
-            <div>加载中</div>
-          ) : (
+          {projectimg == [] ? (
             <>
-              <ViewChart
-                Data={data}
-                xData={time}
-                yData={pixel}
-                title={'一维投影概图'}></ViewChart>
-              <ViewChart
-                Data={data}
-                xData={time}
-                yData={pixel}
-                title={'频谱概图'}></ViewChart>
+              <div>{`${date.format('YYYY-MM-DD')} 暂无数据`}</div>
             </>
+          ) : (
+            <ViewChart Data={projectimg} title={'一维投影概图'}></ViewChart>
+          )}
+          {speovimg == [] ? (
+            <>
+              <div>{`${date.format('YYYY-MM-DD')} 暂无数据`}</div>
+            </>
+          ) : (
+            <ViewChart Data={projectimg} title={'频谱概图'}></ViewChart>
           )}
         </div>
       ),

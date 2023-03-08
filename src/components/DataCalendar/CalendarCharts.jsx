@@ -4,13 +4,14 @@ import 'echarts/lib/component/grid'
 import 'echarts/lib/component/calendar'
 import 'echarts/lib/component/visualMap'
 import 'echarts/lib/component/visualMap'
-import { useRef, useEffect, uesContext, useState } from 'react'
+import { useRef, useEffect, useContext, useState } from 'react'
 import { HeatmapChart } from 'echarts/charts'
 import { dateContext } from '../DataQuery/DataQuery'
+import dayjs from 'dayjs'
 const CalendarCharts = ({ option, flex, range, data }) => {
+  const { date, setDate } = useContext(dateContext)
   const domRef = useRef() //图表的dom
   const [echartsInstance, setEchartsInstance] = useState(null) //用来勾住生成后的 图表实例对象
-
   // 初次加载并初始化日历
   useEffect(() => {
     option.calendar.range = range
@@ -21,9 +22,14 @@ const CalendarCharts = ({ option, flex, range, data }) => {
     window.onresize = function () {
       myChart.resize()
     }
+    // 设置日历的点击事件
+    myChart.on('click', function (param) {
+      // console.log(param.data[0])
+      setDate(dayjs(param.data[0]))
+    })
     setEchartsInstance(myChart)
   }, [])
- 
+
   //当切换年份时刷新
   useEffect(() => {
     if (echartsInstance) {
