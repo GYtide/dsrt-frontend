@@ -47,6 +47,14 @@ export const CursorInfo = ({ coords }) => {
         echartsInstance.setOption({
           tooltip: {
             trigger: 'axis',
+            // trigger: 'item',
+            position: function (p) {
+              //其中p为当前鼠标的位置
+              return [p[0] + 10, p[1]]
+            },
+            extraCssText: 'width:60px;height:20px;',
+            formatter: '{b} ',
+            //{a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）
           },
           xAxis: [
             {

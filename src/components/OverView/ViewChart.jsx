@@ -1,5 +1,6 @@
 import * as echarts from 'echarts'
 import { useEffect, useRef, useState } from 'react'
+import { array2canvasctx } from '../../util/array2canvasctx'
 const option = {
   grid: {
     top: '5%',
@@ -73,7 +74,9 @@ const option = {
 
 function ViewChart({ Data, style }) {
   const domRef = useRef()
+  const canvasRef = useRef()
   const [echartsInstance, setEchartsInstance] = useState(null) //用来勾住生成后的 图表实例对象
+  const [canvasInstance, setCanvasInstance] = useState([]) //预览图的canvas实例
   useEffect(() => {
     // 基于准备好的dom，初始化echarts实例
     const myChart = echarts.init(domRef.current, null, {
@@ -86,6 +89,19 @@ function ViewChart({ Data, style }) {
 
   useEffect(() => {
     if (echartsInstance && Data) {
+      // 创建 canvas实例
+      const canvas = document.createElement('canvas')
+      canvas.width = Data.timearr.length
+      canvas.height = Data.pixelarr.length
+      array2canvasctx(
+        canvas,
+        Data.data,
+        'gray',
+        Math.max(...Data.data),
+        Math.min(...Data.data)
+      )
+      setCanvasInstance(canvas)
+      console.log(Data.data)
       const timeData = []
       // console.log(Data)
       var time0 = +new Date(2022, 1, 1)
@@ -94,7 +110,6 @@ function ViewChart({ Data, style }) {
           echarts.time.format(time0 + Data.timearr[i], '{HH}:{mm}:{ss}', false)
         )
       }
-      console.log(timeData)
       echartsInstance.setOption({
         xAxis: [
           {
@@ -104,6 +119,34 @@ function ViewChart({ Data, style }) {
         yAxis: [
           {
             data: Data.pixelarr,
+          },
+        ],
+        series: [
+          {
+            type: 'custom',
+            geoIndex: 0,
+            renderItem: function (params, api) {
+              var x = echartsInstance.convertToPixel('grid', [0, 0])[0]
+              var y = echartsInstance.convertToPixel('grid', [0, 128])[1]
+              return {
+                type: 'image',
+                style: {
+                  image: echartsInstance,
+                  x: x,
+                  y: y,
+                  width:
+                    echartsInstance.convertToPixel('grid', [128, 40])[0] -
+                    echartsInstance.convertToPixel('grid', [0, 40])[0],
+                  height:
+                    echartsInstance.convertToPixel('grid', [128, 40])[0] -
+                    echartsInstance.convertToPixel('grid', [0, 40])[0],
+                },
+                z: -1,
+              }
+            },
+            clip: true,
+            silent: true,
+            data: [0],
           },
         ],
       })

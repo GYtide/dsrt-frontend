@@ -11,7 +11,7 @@ import { Spin } from 'antd'
 export const dateContext = createContext() //创建当前查询日期的共享状态
 export const isLoadingContext = createContext() //创建当前当前网络请求状态
 const DataQuery = () => {
-  const [date, setDate] = useState(dayjs(new Date('2023-03-02')))
+  const [date, setDate] = useState(dayjs(new Date('2023-03-01')))
   // const [yaer, setYear] = useState(dayjs(new Date()).format('YYYY'))
   const [yearlist, setYearlist] = useState([])
   const [isLoading, setIsLoading] = useState(true)
