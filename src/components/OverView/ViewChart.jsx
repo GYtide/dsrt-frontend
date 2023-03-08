@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 const option = {
   grid: {
     top: '5%',
-    bottom: '5%',
+    bottom: '10%',
   },
   title: {
     text: '',
@@ -76,7 +76,9 @@ function ViewChart({ Data, style }) {
   const [echartsInstance, setEchartsInstance] = useState(null) //用来勾住生成后的 图表实例对象
   useEffect(() => {
     // 基于准备好的dom，初始化echarts实例
-    const myChart = echarts.init(domRef.current)
+    const myChart = echarts.init(domRef.current, null, {
+      renderer: 'svg',
+    })
     // 绘制图表
     myChart.setOption(option)
     setEchartsInstance(myChart)
