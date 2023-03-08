@@ -21,8 +21,8 @@ const Option = {
   },
   xAxis: [
     {
-      min: -64,
-      max: 192,
+      min: -32,
+      max: 180,
       type: 'value',
       position: 'top',
       axisLine: { onZero: false },
@@ -39,8 +39,8 @@ const Option = {
       },
     },
     {
-      min: -64,
-      max: 192,
+      min: -32,
+      max: 180,
       type: 'value',
       position: 'bottom',
       axisLine: { onZero: false },
@@ -54,8 +54,8 @@ const Option = {
   ],
   yAxis: [
     {
-      min: -8,
-      max: 140,
+      min: 0,
+      max: 128,
       type: 'value',
       axisLine: { onZero: false },
       axisTick: {
@@ -66,8 +66,8 @@ const Option = {
       },
     },
     {
-      min: -8,
-      max: 140,
+      min: 0,
+      max: 128,
       type: 'value',
       position: 'right',
       axisLabel: {
