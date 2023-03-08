@@ -1,5 +1,5 @@
 import RasterView from './RasterView/RasterView'
-import { Histogram } from './Histogram'
+import { RenderConfiguration } from './RenderConfiguration/RenderConfiguration'
 import { CursorInfo } from './CursorInfo/CursorInfo'
 import { InfoContainer } from './InfoContainer'
 import { NavBar } from './NavBar/NavBar'
@@ -57,7 +57,7 @@ export const ImageView = ({ fitsid }) => {
                   <div className="lm_item_left">
                     <RasterView></RasterView>
                     <div className="lm_splitter_horizontal"></div>
-                    <Histogram></Histogram>
+                    <RenderConfiguration></RenderConfiguration>
                   </div>
                   <div className="lm_splitter_vertical"></div>
                   <div className="lm_item_right">
