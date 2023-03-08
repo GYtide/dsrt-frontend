@@ -16,7 +16,7 @@ const OverView = (props) => {
       var resData = await fetch(`overview/projectview/?date=${datestr}`).then(
         (res) => res.json()
       )
-      setprojectimg(resData)
+      setprojectimg(resData[0])
     }
     setIsLoading(true)
     fetchData(date.format('YYYY-MM-DD'))
@@ -29,20 +29,8 @@ const OverView = (props) => {
       label: `Tab 1`,
       children: (
         <div className="chartspanel">
-          {projectimg == [] ? (
-            <>
-              <div>{`${date.format('YYYY-MM-DD')} 暂无数据`}</div>
-            </>
-          ) : (
-            <ViewChart Data={projectimg} title={'一维投影概图'}></ViewChart>
-          )}
-          {speovimg == [] ? (
-            <>
-              <div>{`${date.format('YYYY-MM-DD')} 暂无数据`}</div>
-            </>
-          ) : (
-            <ViewChart Data={projectimg} title={'频谱概图'}></ViewChart>
-          )}
+          <ViewChart Data={projectimg} title={'一维投影概图'}></ViewChart>
+          <ViewChart Data={projectimg} title={'频谱概图'}></ViewChart>
         </div>
       ),
     },

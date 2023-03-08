@@ -1,6 +1,10 @@
 import * as echarts from 'echarts'
 import { useEffect, useRef, useState } from 'react'
 const option = {
+  grid: {
+    top: '5%',
+    bottom: '5%',
+  },
   title: {
     text: '',
     textStyle: {
@@ -81,21 +85,23 @@ function ViewChart({ Data, style }) {
   useEffect(() => {
     if (echartsInstance && Data) {
       const timeData = []
-      console.log(Data.timearr)
-      // var time0 = +new Date(2022, 1, 1)
-      // for (let i = 0; i < Data.timearr.length; ++i) {
-      //   timeData.push(
-      //     echarts.time.format(
-      //       time0 + Data.timearr[i] * 1000,
-      //       '{HH}:{mm}:{ss}',
-      //       false
-      //     )
-      //   )
-      // }
+      // console.log(Data)
+      var time0 = +new Date(2022, 1, 1)
+      for (let i = 0; i < Data.timearr.length; ++i) {
+        timeData.push(
+          echarts.time.format(time0 + Data.timearr[i], '{HH}:{mm}:{ss}', false)
+        )
+      }
+      console.log(timeData)
       echartsInstance.setOption({
         xAxis: [
           {
             data: timeData,
+          },
+        ],
+        yAxis: [
+          {
+            data: Data.pixelarr,
           },
         ],
       })
